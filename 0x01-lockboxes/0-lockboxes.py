@@ -3,29 +3,30 @@
 
 
 def canUnlockAll(boxes):
-    '''Determines if all the boxes can be opened or not
-
-    Args:
-        boxes (list): A list of lists representing the lockboxes and their keys.
-
+    '''determines if all the boxes can be opened or not
     Returns:
-        bool: True if all boxes can be opened, False otherwise.
+        True: all boxes can be opened
+        False: not all boxes can be opened
     '''
-    if not boxes:
-        return False
+    length = len(boxes)
+    keys = set()
+    opened_boxes = []
+    i = 0
 
-    num_boxes = len(boxes)
-    keys = set(boxes[0])  # Start with keys from the first box
-    opened_boxes = set([0])  # Start with the first box opened
-
-    while keys:
-        new_keys = set()
+    while i < length:
+        oldi = i
+        opened_boxes.append(i)
+        keys.update(boxes[i])
         for key in keys:
-            if key < num_boxes and key not in opened_boxes:
-                new_keys.update(boxes[key])
-                opened_boxes.add(key)
-        if len(opened_boxes) == num_boxes:
-            return True
-        keys = new_keys - opened_boxes
+            if key != 0 and key < length and key not in opened_boxes:
+                i = key
+                break
+        if oldi != i:
+            continue
+        else:
+            break
 
-    return len(opened_boxes) == num_boxes
+    for i in range(length):
+        if i not in opened_boxes and i != 0:
+            return False
+    return True
